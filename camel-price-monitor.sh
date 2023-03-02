@@ -40,7 +40,7 @@ if [ -z "$HTML_DATA" ]; then
 fi
 
 # Parse the current price from the HTML data
-CURRENT_PRICE=$(echo "$HTML_DATA" | grep -oP '\$[0-9,]+\.[0-9]+' | tail -n 1 | tr -d ',' | sed 's/[^0-9\.]*//g')
+CURRENT_PRICE=$(echo "$HTML_DATA" | grep -A 1 'Current' | tail -n 1 | sed -e 's/<[^>]*>//g' | tr -d '$,')
 
 if [ -z "$CURRENT_PRICE" ]; then
   # Send a Pushover notification if there was an error parsing the current price
@@ -53,9 +53,9 @@ fi
 if (( $(echo "$CURRENT_PRICE < $TARGET_PRICE" | bc -l) )); then
   # Send a Pushover notification
   send_pushover_notification "Price drop on CamelCamelCamel" "The price of the product you are monitoring has dropped below the target price."
-  echo "Price drop on CamelCamelCamel" >> "$LOG_FILE"
+  echo "Price drop on CamelCamelCamel. (Current Price: $CURRENT_PRICE vs Target Price: $TARGET_PRICE)" >> "$LOG_FILE"
 else
-  echo "No price drop detected on CamelCamelCamel" >> "$LOG_FILE"
+  echo "No price drop detected on CamelCamelCamel (Current Price: $CURRENT_PRICE vs Target Price: $TARGET_PRICE)" >> "$LOG_FILE"
 fi
 
 # Log the end time to the log file

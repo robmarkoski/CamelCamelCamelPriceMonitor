@@ -10,11 +10,10 @@ The CamelCamelCamel Price Monitor is a Bash script that monitors the price of a 
 4. The script will log the start and end time of each run, as well as any errors or notifications, to a log file in the same directory as the script.
 
 ## Revision History
-
+- 0.3 (2023-03-10): Added item name in script. Cleaned up Logs. and MULTIPLE Items!
 - 0.2 (2023-03-02): Fixed checking of current price to look at table. Added current/target price to logging.
 - 0.1 (2023-02-22): Initial submission.
 
 
 ## Todo
-- Include item name in script.
-- Add ability for multiple items.
+- make logging,pushover as optional outputs.
